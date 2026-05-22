@@ -50,6 +50,7 @@ export const mockProducts: Product[] = [
       "Shape em maple canadense 7 lâminas prensado a frio. Arte original pintada e silk-screened. Concavidade média. Dimensões: 8.0 x 31.75. Vendido sem truck e sem rodas.",
     price: 219.9,
     category: "Shapes",
+    sizes: ["8.0", "8.5"],
     images: [
       "https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=600&q=80",
     ],
@@ -74,6 +75,7 @@ export const mockProducts: Product[] = [
       "Boné estruturado 6 painéis com aba reta. Bordado 3D exclusivo HellCore Industries na parte frontal. Ajuste snapback plástico traseiro. Tamanho único, serve a maioria dos tamanhos de cabeça.",
     price: 109.9,
     category: "Bonés",
+    sizes: ["P/M", "G/GG"],
     images: [
       "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=600&q=80",
     ],
