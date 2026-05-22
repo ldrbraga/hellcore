@@ -15,6 +15,16 @@ interface Props {
   onSetItem: (product: Product, quantity: number, addons: Addon[]) => void;
 }
 
+function toThumbUrl(url: string): string {
+  if (url.includes("res.cloudinary.com")) {
+    return url.replace("/upload/", "/upload/w_160,h_160,c_fill,q_70/");
+  }
+  if (url.includes("images.unsplash.com")) {
+    return url.split("?")[0] + "?w=160&q=60";
+  }
+  return url;
+}
+
 export function ProductDetailModal({
   product,
   quantity,
@@ -74,46 +84,60 @@ export function ProductDetailModal({
           <div className="w-10 h-1 rounded-full bg-hellcore-text/20" />
         </div>
 
-        <div className="relative shrink-0 md:w-[55%] overflow-hidden">
-          <div className="overflow-hidden h-full" ref={emblaRef}>
-            <div className={`flex h-full ${hasMultipleImages ? "gap-1" : ""}`}>
-              {product.images.map((img, i) => (
-                <div
-                  key={i}
-                  className={`${
-                    hasMultipleImages ? "flex-[0_0_96%]" : "flex-[0_0_100%]"
-                  } h-[46vh] md:h-full md:min-h-[480px] shrink-0 relative bg-hellcore-border`}
-                >
-                  <Image
-                    src={img}
-                    alt={`${product.name} — foto ${i + 1}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 55vw"
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              ))}
+        <div className="shrink-0 md:w-[55%] h-[52vh] md:h-auto flex flex-col overflow-hidden">
+          <div className="relative flex-1 overflow-hidden">
+            <div className="overflow-hidden h-full" ref={emblaRef}>
+              <div
+                className={`flex h-full ${hasMultipleImages ? "gap-1" : ""}`}
+              >
+                {product.images.map((img, i) => (
+                  <div
+                    key={i}
+                    className={`${
+                      hasMultipleImages ? "flex-[0_0_96%]" : "flex-[0_0_100%]"
+                    } shrink-0 relative h-full bg-hellcore-border`}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${product.name} — foto ${i + 1}`}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 55vw"
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
+
+            <button
+              onClick={onClose}
+              className="hidden md:flex absolute top-4 right-4 bg-hellcore-bg/90 p-2.5 active:scale-90 transition-transform items-center justify-center"
+            >
+              <X size={16} className="text-hellcore-text" />
+            </button>
           </div>
 
-          <button
-            onClick={onClose}
-            className="hidden md:flex absolute top-4 right-4 bg-hellcore-bg/90 p-2.5 active:scale-90 transition-transform items-center justify-center"
-          >
-            <X size={16} className="text-hellcore-text" />
-          </button>
-
           {hasMultipleImages && (
-            <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-              {product.images.map((_, i) => (
+            <div className="shrink-0 flex gap-2 px-3 py-2.5 bg-hellcore-surface border-t border-hellcore-border overflow-x-auto [&::-webkit-scrollbar]:hidden">
+              {product.images.map((img, i) => (
                 <button
                   key={i}
                   onClick={() => emblaApi?.scrollTo(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 bg-hellcore-bg ${
-                    i === selectedIndex ? "w-6 opacity-90" : "w-1.5 opacity-35"
+                  className={`relative shrink-0 w-14 h-14 overflow-hidden transition-all duration-200 ${
+                    i === selectedIndex
+                      ? "ring-2 ring-hellcore-text opacity-100"
+                      : "opacity-40 hover:opacity-70"
                   }`}
-                />
+                >
+                  <Image
+                    src={toThumbUrl(img)}
+                    alt={`Miniatura ${i + 1}`}
+                    fill
+                    sizes="56px"
+                    className="object-cover"
+                  />
+                </button>
               ))}
             </div>
           )}
