@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { X, Minus, Plus, ShoppingBag, Check } from "lucide-react";
 import Image from "next/image";
@@ -41,6 +41,7 @@ export function ProductDetailModal({
   const [selectedAddons, setSelectedAddons] = useState<Addon[]>(currentAddons);
   const [selectedSize, setSelectedSize] = useState<string | undefined>(currentSize);
   const [sizeError, setSizeError] = useState(false);
+  const sizeRef = useRef<HTMLDivElement>(null);
 
   const availableAddons = CATEGORY_ADDONS[product.category] ?? [];
 
@@ -72,6 +73,7 @@ export function ProductDetailModal({
   const handleConfirm = () => {
     if (product.sizes?.length && !selectedSize) {
       setSizeError(true);
+      sizeRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
       return;
     }
     onSetItem(product, localQuantity, selectedAddons, selectedSize);
@@ -84,17 +86,27 @@ export function ProductDetailModal({
       onClick={onClose}
     >
       <div
-        className="bg-hellcore-surface w-full md:max-w-4xl md:h-auto md:max-h-[88vh] animate-in slide-in-from-bottom-full duration-300 overflow-hidden flex flex-col md:flex-row border-t-2 border-hellcore-text md:border-2"
+        className="bg-hellcore-surface w-full md:max-w-4xl md:h-auto md:max-h-[88vh] animate-in slide-in-from-bottom-full duration-300 overflow-y-auto md:overflow-hidden flex flex-col md:flex-row border-t-2 border-hellcore-text md:border-2"
         style={{ height: "92dvh" }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="md:hidden flex justify-center pt-3 pb-1 shrink-0 bg-hellcore-surface">
+        {/* Drag handle + close — sticky no topo no mobile */}
+        <div className="md:hidden sticky top-0 z-10 flex items-center justify-between px-4 pt-3 pb-2 bg-hellcore-surface shrink-0">
+          <div className="w-5 shrink-0" />
           <div className="w-10 h-1 rounded-full bg-hellcore-text/20" />
+          <button
+            onClick={onClose}
+            className="p-1 -mr-1 active:scale-90 transition-transform"
+          >
+            <X size={18} className="text-hellcore-text/50" />
+          </button>
         </div>
 
-        <div className="shrink-0 md:w-[55%] h-[52vh] md:h-auto flex flex-col overflow-hidden">
-          <div className="relative flex-1 overflow-hidden">
-            <div className="overflow-hidden h-full" ref={emblaRef}>
+        {/* Seção de imagens */}
+        <div className="shrink-0 w-full md:w-[55%] md:h-full md:flex md:flex-col md:overflow-hidden">
+          {/* Aspect-square no mobile, flex-1 no desktop */}
+          <div className="w-full aspect-square relative md:aspect-auto md:flex-1">
+            <div className="overflow-hidden absolute inset-0" ref={emblaRef}>
               <div className="flex h-full">
                 {product.images.map((img, i) => (
                   <div
@@ -147,22 +159,12 @@ export function ProductDetailModal({
           )}
         </div>
 
-        <div className="flex-1 flex flex-col overflow-hidden md:border-l md:border-hellcore-text/10">
-          <div className="md:hidden flex items-center justify-between px-5 pt-4 pb-2 shrink-0">
-            <span className="text-[9px] font-black uppercase tracking-[0.4em] text-hellcore-red/70">
-              {product.category}
-            </span>
-            <button
-              onClick={onClose}
-              className="p-2 -mr-2 active:scale-90 transition-transform"
-            >
-              <X size={18} className="text-hellcore-text/50" />
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto px-5 md:px-8 pb-4 md:pb-6 space-y-5">
+        {/* Seção de conteúdo */}
+        <div className="flex-1 md:flex md:flex-col md:overflow-hidden md:border-l md:border-hellcore-text/10">
+          {/* Conteúdo — flui normalmente no mobile, scroll interno no desktop */}
+          <div className="px-5 md:px-8 pt-5 pb-4 md:pb-6 space-y-5 md:flex-1 md:overflow-y-auto">
             <div className="space-y-2">
-              <span className="hidden md:block text-[9px] font-black uppercase tracking-[0.4em] text-hellcore-red/70">
+              <span className="text-[9px] font-black uppercase tracking-[0.4em] text-hellcore-red/70">
                 {product.category}
               </span>
               <h2 className="font-display text-4xl md:text-5xl uppercase tracking-wide text-hellcore-text leading-tight">
@@ -186,7 +188,7 @@ export function ProductDetailModal({
             </div>
 
             {product.sizes && product.sizes.length > 0 && (
-              <div className="space-y-3">
+              <div ref={sizeRef} className="space-y-3">
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex items-center gap-2 flex-1">
                     <span className="text-[9px] font-black uppercase tracking-widest text-hellcore-text/30 shrink-0">
@@ -270,7 +272,8 @@ export function ProductDetailModal({
             )}
           </div>
 
-          <div className="px-5 md:px-8 py-4 md:py-5 border-t-2 border-hellcore-text/10 flex items-center gap-3 shrink-0 bg-hellcore-surface">
+          {/* CTA — sticky no mobile, estático no desktop */}
+          <div className="sticky bottom-0 md:static px-5 md:px-8 py-4 md:py-5 border-t-2 border-hellcore-text/10 flex items-center gap-3 bg-hellcore-surface md:shrink-0">
             <div className="flex items-center bg-hellcore-bg border border-hellcore-text/15 px-0.5 h-14 shrink-0">
               <button
                 onClick={() => setLocalQuantity((q) => Math.max(1, q - 1))}
