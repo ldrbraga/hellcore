@@ -40,7 +40,9 @@ export default function RootLayout({
       className={`${bebas.variable} ${barlow.variable}`}
       suppressHydrationWarning
     >
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <div className="relative overflow-x-hidden">{children}</div>
+      </body>
     </html>
   );
 }
