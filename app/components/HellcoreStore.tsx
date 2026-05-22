@@ -11,6 +11,7 @@ import { CartTrigger } from "./CartTrigger";
 import { CartDrawer } from "./CartDrawer";
 import { ProductDetailModal } from "./ProductDetailModal";
 import { InstagramCTA } from "./InstagramCTA";
+import { Footer } from "./Footer";
 
 interface Props {
   products: Product[];
@@ -186,6 +187,8 @@ export function HellcoreStore({ products }: Props) {
       <div ref={instagramRef}>
         <InstagramCTA />
       </div>
+
+      <Footer />
 
       <CartDrawer
         isOpen={isCartOpen}
