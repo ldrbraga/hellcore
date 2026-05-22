@@ -14,7 +14,7 @@ interface Props {
   total: number;
   onClose: () => void;
   onAdd: (p: Product) => void;
-  onRemove: (id: number) => void;
+  onRemove: (id: number, size?: string) => void;
   onSend: (formData: UserInfo) => void;
 }
 
@@ -132,7 +132,7 @@ export function CartDrawer({
                     (item.price + calcAddonsTotal(item.addons)) * item.quantity;
                   return (
                     <div
-                      key={item.id}
+                      key={`${item.id}-${item.selectedSize ?? ""}`}
                       className="flex gap-3 items-center bg-zinc-900 p-2.5 border border-zinc-800"
                     >
                       <div className="w-14 h-14 relative shrink-0 bg-zinc-800 overflow-hidden">
@@ -164,7 +164,7 @@ export function CartDrawer({
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
                         <button
-                          onClick={() => onRemove(item.id)}
+                          onClick={() => onRemove(item.id, item.selectedSize)}
                           className="w-6 h-6 flex items-center justify-center text-zinc-500 hover:text-zinc-200 bg-zinc-800 transition-colors"
                         >
                           <Minus size={10} />

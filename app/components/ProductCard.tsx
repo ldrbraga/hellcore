@@ -8,7 +8,7 @@ interface Props {
   product: Product;
   quantity: number;
   onAdd: (p: Product) => void;
-  onRemove: (id: number) => void;
+  onRemove: (id: number, size?: string) => void;
   onViewDetail: (p: Product) => void;
   priority?: boolean;
 }

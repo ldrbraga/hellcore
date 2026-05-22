@@ -41,35 +41,41 @@ export function HellcoreStore({ products }: Props) {
   }, []);
 
   const addToCart = (product: Product) => {
+    const size = (product as CartItem).selectedSize;
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find(
+        (item) => item.id === product.id && item.selectedSize === size
+      );
       if (existing)
         return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          item === existing ? { ...item, quantity: item.quantity + 1 } : item
         );
-      return [...prev, { ...product, quantity: 1, addons: [] }];
+      return [...prev, { ...product, quantity: 1, addons: (product as CartItem).addons ?? [] }];
     });
   };
 
-  const removeFromCart = (id: number) => {
+  const removeFromCart = (id: number, size?: string) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === id);
-      if (existing?.quantity === 1)
-        return prev.filter((item) => item.id !== id);
+      const existing = prev.find(
+        (item) => item.id === id && item.selectedSize === size
+      );
+      if (!existing) return prev;
+      if (existing.quantity === 1)
+        return prev.filter((item) => item !== existing);
       return prev.map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity - 1 } : item
+        item === existing ? { ...item, quantity: item.quantity - 1 } : item
       );
     });
   };
 
   const setCartItem = (product: Product, quantity: number, addons: Addon[], size?: string) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find(
+        (item) => item.id === product.id && item.selectedSize === size
+      );
       if (existing)
         return prev.map((item) =>
-          item.id === product.id ? { ...item, quantity, addons, selectedSize: size } : item
+          item === existing ? { ...item, quantity, addons, selectedSize: size } : item
         );
       return [...prev, { ...product, quantity, addons, selectedSize: size }];
     });
@@ -156,7 +162,9 @@ export function HellcoreStore({ products }: Props) {
                   key={product.id}
                   product={product}
                   quantity={
-                    cart.find((i) => i.id === product.id)?.quantity ?? 0
+                    cart
+                    .filter((i) => i.id === product.id)
+                    .reduce((sum, i) => sum + i.quantity, 0)
                   }
                   onAdd={addToCart}
                   onRemove={removeFromCart}
