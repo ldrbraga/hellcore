@@ -87,15 +87,11 @@ export function ProductDetailModal({
         <div className="shrink-0 md:w-[55%] h-[52vh] md:h-auto flex flex-col overflow-hidden">
           <div className="relative flex-1 overflow-hidden">
             <div className="overflow-hidden h-full" ref={emblaRef}>
-              <div
-                className={`flex h-full ${hasMultipleImages ? "gap-1" : ""}`}
-              >
+              <div className="flex h-full">
                 {product.images.map((img, i) => (
                   <div
                     key={i}
-                    className={`${
-                      hasMultipleImages ? "flex-[0_0_96%]" : "flex-[0_0_100%]"
-                    } shrink-0 relative h-full bg-hellcore-border`}
+                    className="flex-[0_0_100%] shrink-0 relative h-full bg-hellcore-border"
                   >
                     <Image
                       src={img}
