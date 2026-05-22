@@ -19,16 +19,13 @@ export function Header({ cartCount, onCartOpen }: Props) {
           aria-label="Abrir carrinho"
         >
           <div className="relative">
-            <ShoppingBag size={16} strokeWidth={1.5} />
+            <ShoppingBag size={20} strokeWidth={1.5} />
             {cartCount > 0 && (
               <span className="absolute -top-1.5 -right-1.5 bg-hellcore-red text-hellcore-bg text-[7px] min-w-[13px] h-[13px] flex items-center justify-center font-black px-0.5 leading-none">
                 {cartCount}
               </span>
             )}
           </div>
-          <span className="hidden md:block text-[10px] font-black uppercase tracking-widest">
-            {cartCount > 0 ? `Carrinho (${cartCount})` : "Carrinho"}
-          </span>
         </button>
       </div>
     </header>
