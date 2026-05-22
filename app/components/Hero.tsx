@@ -54,27 +54,27 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hidden md:block bg-hellcore-bg border-b-2 border-hellcore-text">
-        <div className="max-w-5xl mx-auto px-8 py-8">
-          <div className="flex items-center gap-4 mb-4">
+      <div className="bg-hellcore-bg border-b-2 border-hellcore-text">
+        <div className="max-w-5xl mx-auto px-4 md:px-8 py-3 md:py-8">
+          <div className="flex items-center gap-4 mb-2 md:mb-4">
             <span className="text-[9px] font-black uppercase tracking-[0.5em] text-hellcore-text/30">
               Manifesto
             </span>
             <div className="h-px flex-1 bg-hellcore-text/10" />
           </div>
 
-          <p className="text-hellcore-text text-xl leading-[1.7]">
+          <p className="text-hellcore-text text-sm md:text-xl leading-relaxed md:leading-[1.7]">
             A HellCore Industries é uma marca pessoal que utiliza a linguagem
             visual do{" "}
-            <span className="font-display text-[30px] text-hellcore-red leading-none">
+            <span className="font-display text-xl md:text-[30px] text-hellcore-red leading-none">
               SKATE
             </span>
             , do{" "}
-            <span className="font-display text-[30px] text-hellcore-red leading-none">
+            <span className="font-display text-xl md:text-[30px] text-hellcore-red leading-none">
               UNDERGROUND
             </span>{" "}
             e da{" "}
-            <span className="font-display text-[30px] text-hellcore-red leading-none">
+            <span className="font-display text-xl md:text-[30px] text-hellcore-red leading-none">
               CULTURA DE RUA
             </span>{" "}
             <span className="text-hellcore-text/35">(Contracultura)</span> para
