@@ -6,9 +6,7 @@ import { Product } from "../types";
 
 async function getAccessToken(): Promise<string> {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!;
-  const rawKey = process.env.GOOGLE_PRIVATE_KEY!
-    .trim()
-    .replace(/\\n/g, "\n");
+  const rawKey = process.env.GOOGLE_PRIVATE_KEY!.trim().replace(/\\n/g, "\n");
 
   const privateKey = await importPKCS8(rawKey, "RS256");
 

@@ -20,7 +20,8 @@ export function HellcoreStore({ products }: Props) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<CategorySelection>("Todos");
+  const [selectedCategory, setSelectedCategory] =
+    useState<CategorySelection>("Todos");
   const instagramRef = useRef<HTMLDivElement>(null);
   const cartTriggerRef = useRef<HTMLDivElement>(null);
 
@@ -30,7 +31,9 @@ export function HellcoreStore({ products }: Props) {
       const rect = instagramRef.current.getBoundingClientRect();
       const gap = 16;
       const overlap = window.innerHeight - rect.top;
-      cartTriggerRef.current.style.bottom = `${overlap > 0 ? overlap + gap : gap}px`;
+      cartTriggerRef.current.style.bottom = `${
+        overlap > 0 ? overlap + gap : gap
+      }px`;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -41,7 +44,9 @@ export function HellcoreStore({ products }: Props) {
       const existing = prev.find((item) => item.id === product.id);
       if (existing)
         return prev.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
         );
       return [...prev, { ...product, quantity: 1, addons: [] }];
     });
@@ -50,7 +55,8 @@ export function HellcoreStore({ products }: Props) {
   const removeFromCart = (id: number) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === id);
-      if (existing?.quantity === 1) return prev.filter((item) => item.id !== id);
+      if (existing?.quantity === 1)
+        return prev.filter((item) => item.id !== id);
       return prev.map((item) =>
         item.id === id ? { ...item, quantity: item.quantity - 1 } : item
       );
@@ -69,22 +75,28 @@ export function HellcoreStore({ products }: Props) {
   };
 
   const total = useMemo(
-    () => cart.reduce((acc, item) => acc + (item.price + calcAddonsTotal(item.addons)) * item.quantity, 0),
+    () =>
+      cart.reduce(
+        (acc, item) =>
+          acc + (item.price + calcAddonsTotal(item.addons)) * item.quantity,
+        0
+      ),
     [cart]
   );
 
   const totalItems = calcTotalItems(cart);
 
   const handleSendOrder = (formData: UserInfo) => {
-    const phone = "5521993008629"; // TODO: substituir pelo WhatsApp da HellCore
-
+    const phone = "5521993008629";
     const itemsList = cart
       .map((item) => {
         const addonsText =
           item.addons.length > 0
             ? ` (${item.addons.map((a) => a.name).join(", ")})`
             : "";
-        return `• ${item.quantity}x ${item.name}${addonsText} — R$ ${formatPrice(
+        return `• ${item.quantity}x ${
+          item.name
+        }${addonsText} — R$ ${formatPrice(
           (item.price + calcAddonsTotal(item.addons)) * item.quantity
         )}`;
       })
@@ -143,7 +155,9 @@ export function HellcoreStore({ products }: Props) {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  quantity={cart.find((i) => i.id === product.id)?.quantity ?? 0}
+                  quantity={
+                    cart.find((i) => i.id === product.id)?.quantity ?? 0
+                  }
                   onAdd={addToCart}
                   onRemove={removeFromCart}
                   onViewDetail={setSelectedProduct}
@@ -153,7 +167,9 @@ export function HellcoreStore({ products }: Props) {
             </div>
           ) : (
             <div className="text-center py-20 text-hellcore-text/25">
-              <p className="text-sm font-semibold">Nenhum produto nessa categoria.</p>
+              <p className="text-sm font-semibold">
+                Nenhum produto nessa categoria.
+              </p>
             </div>
           )}
         </main>
@@ -184,8 +200,12 @@ export function HellcoreStore({ products }: Props) {
       {selectedProduct && (
         <ProductDetailModal
           product={selectedProduct}
-          quantity={cart.find((i) => i.id === selectedProduct.id)?.quantity ?? 0}
-          currentAddons={cart.find((i) => i.id === selectedProduct.id)?.addons ?? []}
+          quantity={
+            cart.find((i) => i.id === selectedProduct.id)?.quantity ?? 0
+          }
+          currentAddons={
+            cart.find((i) => i.id === selectedProduct.id)?.addons ?? []
+          }
           onClose={() => setSelectedProduct(null)}
           onSetItem={setCartItem}
         />

@@ -39,7 +39,9 @@ export function ProductDetailModal({
     if (!emblaApi) return;
     const onSelect = () => setSelectedIndex(emblaApi.selectedScrollSnap());
     emblaApi.on("select", onSelect);
-    return () => { emblaApi.off("select", onSelect); };
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
   }, [emblaApi]);
 
   const toggleAddon = (addon: Addon) => {
@@ -50,7 +52,8 @@ export function ProductDetailModal({
     );
   };
 
-  const lineTotal = localQuantity * (product.price + calcAddonsTotal(selectedAddons));
+  const lineTotal =
+    localQuantity * (product.price + calcAddonsTotal(selectedAddons));
 
   const handleConfirm = () => {
     onSetItem(product, localQuantity, selectedAddons);
@@ -164,7 +167,9 @@ export function ProductDetailModal({
                 </div>
                 <div className="space-y-2">
                   {availableAddons.map((addon) => {
-                    const selected = selectedAddons.some((a) => a.id === addon.id);
+                    const selected = selectedAddons.some(
+                      (a) => a.id === addon.id
+                    );
                     return (
                       <button
                         key={addon.id}
@@ -189,7 +194,9 @@ export function ProductDetailModal({
                                 : "border-hellcore-border"
                             }`}
                           >
-                            {selected && <Check size={10} className="text-hellcore-bg" />}
+                            {selected && (
+                              <Check size={10} className="text-hellcore-bg" />
+                            )}
                           </div>
                         </div>
                       </button>

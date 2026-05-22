@@ -78,7 +78,9 @@ export function CategoryFilter({ selected, onChange, counts }: Props) {
                   {count !== undefined && (
                     <span
                       className={`text-[10px] font-bold ${
-                        isActive ? "text-hellcore-bg/65" : "text-hellcore-text/40"
+                        isActive
+                          ? "text-hellcore-bg/65"
+                          : "text-hellcore-text/40"
                       }`}
                     >
                       {count}

@@ -1,4 +1,10 @@
-function InstagramIcon({ size = 18, className = "" }: { size?: number; className?: string }) {
+function InstagramIcon({
+  size = 18,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) {
   return (
     <svg
       width={size}

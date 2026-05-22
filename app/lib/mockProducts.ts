@@ -83,9 +83,7 @@ export const mockProducts: Product[] = [
       "Bucket hat em 100% algodão com estampa all-over. Costura reforçada. Aba de 6cm. Lavável à máquina. Tamanhos: P/M e G/GG.",
     price: 89.9,
     category: "Bonés",
-    images: [
-      "https://picsum.photos/seed/hellcore-bucket/600/800",
-    ],
+    images: ["https://picsum.photos/seed/hellcore-bucket/600/800"],
   },
   {
     id: 8,
@@ -95,9 +93,7 @@ export const mockProducts: Product[] = [
       "Impressão giclée de alta qualidade em papel algodão 300g. Edição limitada de 50 unidades, cada uma numerada e assinada pelo artista. Acompanha certificado de autenticidade. Dimensões: A3 (297 × 420mm). Enviado em tubo protetor.",
     price: 149.9,
     category: "Arte Digital",
-    images: [
-      "https://picsum.photos/seed/hellcore-print/600/800",
-    ],
+    images: ["https://picsum.photos/seed/hellcore-print/600/800"],
   },
   {
     id: 9,

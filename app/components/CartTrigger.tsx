@@ -28,7 +28,9 @@ export const CartTrigger = forwardRef<HTMLDivElement, CartTriggerProps>(
               </span>
             </div>
             <div className="text-left leading-tight">
-              <p className="text-[10px] text-hellcore-bg/50 font-semibold uppercase tracking-wider">Ver carrinho</p>
+              <p className="text-[10px] text-hellcore-bg/50 font-semibold uppercase tracking-wider">
+                Ver carrinho
+              </p>
               <p className="font-black text-base">R$ {formatPrice(total)}</p>
             </div>
           </div>
