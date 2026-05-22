@@ -20,12 +20,21 @@ export const metadata: Metadata = {
   title: "HellCore Industries",
   description:
     "Skate, arte e contracultura. Camisetas, shapes customizados, bonés e arte digital.",
+  metadataBase: new URL("https://hellcore.vercel.app"),
   openGraph: {
     title: "HellCore Industries",
     description: "Arte que incomoda. Vista o que você representa.",
     siteName: "HellCore Industries",
     locale: "pt_BR",
     type: "website",
+    images: [
+      {
+        url: "/logo-hellcore.png",
+        width: 512,
+        height: 512,
+        alt: "HellCore Industries",
+      },
+    ],
   },
 };
 
