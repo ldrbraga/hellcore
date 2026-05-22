@@ -148,6 +148,11 @@ export function CartDrawer({
                         <p className="font-black text-[11px] uppercase tracking-tight text-zinc-100 line-clamp-1">
                           {item.name}
                         </p>
+                        {item.selectedSize && (
+                          <p className="text-[10px] text-zinc-500 mt-0.5">
+                            Tam. {item.selectedSize}
+                          </p>
+                        )}
                         {item.addons.length > 0 && (
                           <p className="text-[10px] text-zinc-600 mt-0.5">
                             {item.addons.map((a) => a.name).join(" · ")}

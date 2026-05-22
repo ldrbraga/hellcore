@@ -9,6 +9,7 @@ export const mockProducts: Product[] = [
       "Camiseta em algodão penteado fio 30.1. Corte oversized com caimento relaxado. Estampa em serigrafia manual com tinta plastisol. Cada peça tem pequenas variações que a tornam única.",
     price: 94.9,
     category: "Camisetas",
+    sizes: ["P", "M", "G", "GG"],
     images: [
       "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80",
       "https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80",
@@ -23,6 +24,7 @@ export const mockProducts: Product[] = [
       "Estampa em blackletter desenhada à mão pelo artista. Algodão pesado 250g com gramatura reforçada. Lavagem fria, não torcer.",
     price: 84.9,
     category: "Camisetas",
+    sizes: ["P", "M", "G", "GG"],
     images: [
       "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80",
     ],
@@ -35,6 +37,7 @@ export const mockProducts: Product[] = [
       "Processo de tingimento acid wash feito inteiramente à mão. Cada peça é numerada e acompanha certificado de autenticidade. Algodão 100%, processo sem cloro.",
     price: 129.9,
     category: "Camisetas",
+    sizes: ["P", "M", "G", "GG"],
     images: [
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80",
     ],
@@ -83,6 +86,7 @@ export const mockProducts: Product[] = [
       "Bucket hat em 100% algodão com estampa all-over. Costura reforçada. Aba de 6cm. Lavável à máquina. Tamanhos: P/M e G/GG.",
     price: 89.9,
     category: "Bonés",
+    sizes: ["P/M", "G/GG"],
     images: ["https://picsum.photos/seed/hellcore-bucket/600/800"],
   },
   {

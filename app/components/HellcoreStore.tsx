@@ -64,14 +64,14 @@ export function HellcoreStore({ products }: Props) {
     });
   };
 
-  const setCartItem = (product: Product, quantity: number, addons: Addon[]) => {
+  const setCartItem = (product: Product, quantity: number, addons: Addon[], size?: string) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing)
         return prev.map((item) =>
-          item.id === product.id ? { ...item, quantity, addons } : item
+          item.id === product.id ? { ...item, quantity, addons, selectedSize: size } : item
         );
-      return [...prev, { ...product, quantity, addons }];
+      return [...prev, { ...product, quantity, addons, selectedSize: size }];
     });
   };
 
@@ -91,13 +91,12 @@ export function HellcoreStore({ products }: Props) {
     const phone = "5521993008629";
     const itemsList = cart
       .map((item) => {
+        const sizeText = item.selectedSize ? ` [${item.selectedSize}]` : "";
         const addonsText =
           item.addons.length > 0
             ? ` (${item.addons.map((a) => a.name).join(", ")})`
             : "";
-        return `• ${item.quantity}x ${
-          item.name
-        }${addonsText} — R$ ${formatPrice(
+        return `• ${item.quantity}x ${item.name}${sizeText}${addonsText} — R$ ${formatPrice(
           (item.price + calcAddonsTotal(item.addons)) * item.quantity
         )}`;
       })
@@ -209,6 +208,7 @@ export function HellcoreStore({ products }: Props) {
           currentAddons={
             cart.find((i) => i.id === selectedProduct.id)?.addons ?? []
           }
+          currentSize={cart.find((i) => i.id === selectedProduct.id)?.selectedSize}
           onClose={() => setSelectedProduct(null)}
           onSetItem={setCartItem}
         />

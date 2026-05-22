@@ -21,11 +21,12 @@ export function ProductCard({
   onViewDetail,
   priority = false,
 }: Props) {
-  const hasAddons = !!CATEGORY_ADDONS[product.category]?.length;
+  const needsModal =
+    !!CATEGORY_ADDONS[product.category]?.length || !!product.sizes?.length;
 
   const handleAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (hasAddons) onViewDetail(product);
+    if (needsModal) onViewDetail(product);
     else onAdd(product);
   };
 

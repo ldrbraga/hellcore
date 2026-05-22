@@ -11,8 +11,9 @@ interface Props {
   product: Product;
   quantity: number;
   currentAddons: Addon[];
+  currentSize?: string;
   onClose: () => void;
-  onSetItem: (product: Product, quantity: number, addons: Addon[]) => void;
+  onSetItem: (product: Product, quantity: number, addons: Addon[], size?: string) => void;
 }
 
 function toThumbUrl(url: string): string {
@@ -29,6 +30,7 @@ export function ProductDetailModal({
   product,
   quantity,
   currentAddons,
+  currentSize,
   onClose,
   onSetItem,
 }: Props) {
@@ -37,6 +39,8 @@ export function ProductDetailModal({
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [localQuantity, setLocalQuantity] = useState(Math.max(quantity, 1));
   const [selectedAddons, setSelectedAddons] = useState<Addon[]>(currentAddons);
+  const [selectedSize, setSelectedSize] = useState<string | undefined>(currentSize);
+  const [sizeError, setSizeError] = useState(false);
 
   const availableAddons = CATEGORY_ADDONS[product.category] ?? [];
 
@@ -66,7 +70,11 @@ export function ProductDetailModal({
     localQuantity * (product.price + calcAddonsTotal(selectedAddons));
 
   const handleConfirm = () => {
-    onSetItem(product, localQuantity, selectedAddons);
+    if (product.sizes?.length && !selectedSize) {
+      setSizeError(true);
+      return;
+    }
+    onSetItem(product, localQuantity, selectedAddons, selectedSize);
     onClose();
   };
 
@@ -176,6 +184,41 @@ export function ProductDetailModal({
                 {product.detailDescription ?? product.description}
               </p>
             </div>
+
+            {product.sizes && product.sizes.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 flex-1">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-hellcore-text/30 shrink-0">
+                      Tamanho
+                    </span>
+                    <div className="flex-1 h-px bg-hellcore-border" />
+                  </div>
+                  {sizeError && (
+                    <span className="text-[10px] text-hellcore-red font-black uppercase tracking-wide shrink-0 animate-in fade-in">
+                      Selecione um tamanho
+                    </span>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => { setSelectedSize(size); setSizeError(false); }}
+                      className={`px-4 py-2 text-sm font-bold border-2 transition-all active:scale-95 ${
+                        selectedSize === size
+                          ? "border-hellcore-text bg-hellcore-text text-hellcore-bg"
+                          : sizeError
+                          ? "border-hellcore-red/50 text-hellcore-text/60"
+                          : "border-hellcore-border text-hellcore-text/60 hover:border-hellcore-text/40"
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {availableAddons.length > 0 && (
               <div className="space-y-3">

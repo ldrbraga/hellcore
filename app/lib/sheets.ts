@@ -37,7 +37,7 @@ async function getAccessToken(): Promise<string> {
 
 export async function getProducts(): Promise<Product[]> {
   const token = await getAccessToken();
-  const range = encodeURIComponent("Página1!A2:H");
+  const range = encodeURIComponent("Página1!A2:I");
 
   const response = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SHEETS_ID}/values/${range}`,
@@ -51,7 +51,7 @@ export async function getProducts(): Promise<Product[]> {
   const rows: string[][] = data.values ?? [];
 
   return rows
-    .filter((row) => row[7]?.toUpperCase() === "TRUE")
+    .filter((row) => row[8]?.toUpperCase() === "TRUE")
     .map((row, index) => ({
       id: Number(row[0]) || index + 1,
       name: row[1],
@@ -59,9 +59,7 @@ export async function getProducts(): Promise<Product[]> {
       detailDescription: row[3] || undefined,
       price: Number(row[4]),
       category: row[5] as Product["category"],
-      images: row[6]
-        .split(",")
-        .map((url) => url.trim())
-        .filter(Boolean),
+      images: row[6].split(",").map((url) => url.trim()).filter(Boolean),
+      sizes: row[7] ? row[7].split(",").map((s) => s.trim()).filter(Boolean) : undefined,
     }));
 }

@@ -12,11 +12,13 @@ export interface Product {
   price: number;
   category: "Camisetas" | "Shapes" | "Bonés" | "Arte Digital";
   images: string[];
+  sizes?: string[];
 }
 
 export interface CartItem extends Product {
   quantity: number;
   addons: Addon[];
+  selectedSize?: string;
 }
 
 export type PaymentMethod = "Pix" | "Dinheiro" | "Cartão (Entregador)";
