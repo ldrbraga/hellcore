@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-hellcore-bg: #ede5ce;
+  --color-hellcore-surface: #f5edd8;
+  --color-hellcore-border: #c9bfa8;
+  --color-hellcore-text: #111109;
+  --color-hellcore-red: #7a2215;
+
+  --font-sans: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bebas), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-hellcore-bg text-hellcore-text;
+    overflow-x: hidden;
+    font-family: var(--font-barlow), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+  }
+}
+
+.font-display {
+  font-family: var(--font-bebas), ui-sans-serif, system-ui, sans-serif;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 24s linear infinite;
+}
