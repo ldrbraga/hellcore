@@ -12,6 +12,7 @@ import { CartDrawer } from "./CartDrawer";
 import { ProductDetailModal } from "./ProductDetailModal";
 import { InstagramCTA } from "./InstagramCTA";
 import { Footer } from "./Footer";
+import { WHATSAPP_PHONE } from "../constants/config";
 
 interface Props {
   products: Product[];
@@ -104,7 +105,7 @@ export function HellcoreStore({ products }: Props) {
   const totalItems = calcTotalItems(cart);
 
   const handleSendOrder = (formData: UserInfo) => {
-    const phone = "5521974562504";
+    const phone = WHATSAPP_PHONE;
     const itemsList = cart
       .map((item) => {
         const sizeText = item.selectedSize ? ` [${item.selectedSize}]` : "";

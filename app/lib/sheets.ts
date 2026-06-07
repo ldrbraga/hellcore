@@ -1,6 +1,3 @@
-// TODO: configurar variáveis de ambiente antes de ir para produção:
-// GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_PRIVATE_KEY, GOOGLE_SHEETS_ID
-// Ver .env.local do projeto karola-menu como referência.
 import { SignJWT, importPKCS8 } from "jose";
 import { Product } from "../types";
 
@@ -37,7 +34,7 @@ async function getAccessToken(): Promise<string> {
 
 export async function getProducts(): Promise<Product[]> {
   const token = await getAccessToken();
-  const range = encodeURIComponent("Página1!A2:I");
+  const range = encodeURIComponent("A2:I");
 
   const response = await fetch(
     `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SHEETS_ID}/values/${range}`,
@@ -48,6 +45,7 @@ export async function getProducts(): Promise<Product[]> {
   );
 
   const data = await response.json();
+  if (data.error) throw new Error(data.error.message);
   const rows: string[][] = data.values ?? [];
 
   return rows

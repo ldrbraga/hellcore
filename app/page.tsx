@@ -1,7 +1,9 @@
-// TODO: trocar mockProducts por getProducts() após configurar as variáveis de ambiente.
-import { mockProducts } from "./lib/mockProducts";
-import { HellcoreStore } from "./components/HellcoreStore";
+export const dynamic = "force-dynamic";
 
-export default function Page() {
-  return <HellcoreStore products={mockProducts} />;
+import { HellcoreStore } from "./components/HellcoreStore";
+import { getProducts } from "./lib/sheets";
+
+export default async function Page() {
+  const products = await getProducts();
+  return <HellcoreStore products={products} />;
 }
