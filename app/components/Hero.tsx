@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const TICKER =
   " SKATE • ARTE • CONTRACULTURA • UNDERGROUND • HELLCORE INDUSTRIES •";
 
@@ -38,10 +40,12 @@ export function Hero() {
           />
         </div>
 
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src="/logo-hellcore.png"
           alt="HellCore Industries"
+          width={208}
+          height={208}
+          priority
           className="relative z-10 w-36 h-36 md:w-52 md:h-52 object-contain select-none pointer-events-none"
         />
       </div>

@@ -32,6 +32,13 @@ async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
+function optimizeImageUrl(url: string): string {
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/") && !url.includes("/video/upload/")) {
+    return url.replace("/upload/", "/upload/f_auto,q_auto,w_1200/");
+  }
+  return url;
+}
+
 export async function getProducts(): Promise<Product[]> {
   const token = await getAccessToken();
   const range = encodeURIComponent("A2:I");
@@ -57,7 +64,7 @@ export async function getProducts(): Promise<Product[]> {
       detailDescription: row[3] || undefined,
       price: Number(row[4]),
       category: row[5] as Product["category"],
-      images: row[6].split(",").map((url) => url.trim()).filter(Boolean),
+      images: row[6].split(",").map((url) => optimizeImageUrl(url.trim())).filter(Boolean),
       sizes: row[7] ? row[7].split(",").map((s) => s.trim()).filter(Boolean) : undefined,
     }));
 }
