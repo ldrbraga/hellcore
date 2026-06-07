@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
-import { X, Minus, Plus, ShoppingBag, Check } from "lucide-react";
+import { X, Minus, Plus, ShoppingBag, Check, Play } from "lucide-react";
 import Image from "next/image";
 import { Product, Addon } from "../types";
 import { CATEGORY_ADDONS } from "../constants/addons";
@@ -16,8 +16,17 @@ interface Props {
   onSetItem: (product: Product, quantity: number, addons: Addon[], size?: string) => void;
 }
 
+function isVideo(url: string): boolean {
+  return /\.(mp4|webm|mov)(\?|$)/i.test(url) || url.includes("/video/upload/");
+}
+
 function toThumbUrl(url: string): string {
   if (url.includes("res.cloudinary.com")) {
+    if (isVideo(url)) {
+      return url
+        .replace("/video/upload/", "/video/upload/w_160,h_160,c_fill,q_70,so_0/")
+        .replace(/\.(mp4|webm|mov)(\?|$)/i, ".jpg");
+    }
     return url.replace("/upload/", "/upload/w_160,h_160,c_fill,q_70/");
   }
   if (url.includes("images.unsplash.com")) {
@@ -113,14 +122,24 @@ export function ProductDetailModal({
                     key={i}
                     className="flex-[0_0_100%] shrink-0 relative h-full bg-hellcore-border"
                   >
-                    <Image
-                      src={img}
-                      alt={`${product.name} — foto ${i + 1}`}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 55vw"
-                      className="object-cover"
-                      priority
-                    />
+                    {isVideo(img) ? (
+                      <video
+                        src={img}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        controls
+                        playsInline
+                        loop
+                      />
+                    ) : (
+                      <Image
+                        src={img}
+                        alt={`${product.name} — foto ${i + 1}`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 55vw"
+                        className="object-cover"
+                        priority
+                      />
+                    )}
                   </div>
                 ))}
               </div>
@@ -153,6 +172,11 @@ export function ProductDetailModal({
                     sizes="56px"
                     className="object-cover"
                   />
+                  {isVideo(img) && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                      <Play size={16} className="text-white fill-white" />
+                    </div>
+                  )}
                 </button>
               ))}
             </div>

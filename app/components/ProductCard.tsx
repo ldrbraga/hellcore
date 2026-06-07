@@ -82,6 +82,9 @@ export function ProductCard({
         <h3 className="font-display text-sm uppercase tracking-wide text-hellcore-text line-clamp-2 leading-tight">
           {product.name}
         </h3>
+        <p className="text-hellcore-text/50 text-xs line-clamp-2 leading-snug">
+          {product.description}
+        </p>
         <p className="text-hellcore-red font-semibold text-sm">
           R$ {formatPrice(product.price)}
         </p>
