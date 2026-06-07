@@ -53,6 +53,7 @@ export function ProductCard({
                   e.stopPropagation();
                   onRemove(product.id);
                 }}
+                aria-label="Remover um item"
                 className="w-6 h-6 flex items-center justify-center text-hellcore-text/70"
               >
                 <Minus size={10} />
@@ -62,6 +63,7 @@ export function ProductCard({
               </span>
               <button
                 onClick={handleAdd}
+                aria-label="Adicionar mais um item"
                 className="w-6 h-6 flex items-center justify-center text-hellcore-text/70"
               >
                 <Plus size={10} />
@@ -70,6 +72,7 @@ export function ProductCard({
           ) : (
             <button
               onClick={handleAdd}
+              aria-label={`Adicionar ${product.name} ao carrinho`}
               className="bg-hellcore-text text-hellcore-bg w-8 h-8 flex items-center justify-center active:scale-90 transition-transform"
             >
               <Plus size={16} />

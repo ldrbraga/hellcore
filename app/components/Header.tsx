@@ -9,7 +9,7 @@ export function Header({ cartCount, onCartOpen }: Props) {
   return (
     <header className="sticky top-0 z-50 bg-hellcore-text border-b border-white/5">
       <div className="max-w-5xl mx-auto h-11 px-4 md:px-8 flex items-center justify-between">
-        <span className="font-display text-sm tracking-[0.25em] text-hellcore-bg/40 select-none">
+        <span className="font-display text-sm tracking-[0.25em] text-hellcore-bg/70 select-none">
           HellCore Industries
         </span>
 

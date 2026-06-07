@@ -191,7 +191,7 @@ export function HellcoreStore({ products }: Props) {
               ))}
             </div>
           ) : (
-            <div className="text-center py-20 text-hellcore-text/25">
+            <div className="text-center py-20 text-hellcore-text/50">
               <p className="text-sm font-semibold">
                 Nenhum produto nessa categoria.
               </p>

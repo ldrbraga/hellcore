@@ -51,7 +51,7 @@ export function Hero() {
       </div>
 
       <div className="bg-hellcore-text border-t border-hellcore-red/25 py-1.5 overflow-hidden">
-        <div className="flex animate-marquee whitespace-nowrap w-max">
+        <div className="flex animate-marquee whitespace-nowrap w-max" aria-hidden="true">
           <span className="text-[9px] font-bold uppercase tracking-[0.38em] text-hellcore-bg/40">
             {TICKER.repeat(8)}
           </span>
@@ -61,7 +61,7 @@ export function Hero() {
       <div className="bg-hellcore-bg border-b-2 border-hellcore-text">
         <div className="max-w-5xl mx-auto px-4 md:px-8 py-3 md:py-8">
           <div className="flex items-center gap-4 mb-2 md:mb-4">
-            <span className="text-[9px] font-black uppercase tracking-[0.5em] text-hellcore-text/30">
+            <span className="text-[9px] font-black uppercase tracking-[0.5em] text-hellcore-text/30" aria-hidden="true">
               Manifesto
             </span>
             <div className="h-px flex-1 bg-hellcore-text/10" />

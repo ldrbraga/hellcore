@@ -97,6 +97,7 @@ export function CartDrawer({
           {step === "checkout" && (
             <button
               onClick={() => setStep("cart")}
+              aria-label="Voltar ao carrinho"
               className="p-1 -ml-1 text-zinc-500 hover:text-zinc-200 transition-colors"
             >
               <ArrowLeft size={18} />
@@ -112,6 +113,7 @@ export function CartDrawer({
           </div>
           <button
             onClick={onClose}
+            aria-label="Fechar carrinho"
             className="p-1 -mr-1 text-zinc-500 hover:text-zinc-200 transition-colors"
           >
             <X size={18} />
@@ -165,6 +167,7 @@ export function CartDrawer({
                       <div className="flex items-center gap-1 shrink-0">
                         <button
                           onClick={() => onRemove(item.id, item.selectedSize)}
+                          aria-label="Remover um item"
                           className="w-6 h-6 flex items-center justify-center text-zinc-500 hover:text-zinc-200 bg-zinc-800 transition-colors"
                         >
                           <Minus size={10} />
@@ -174,6 +177,7 @@ export function CartDrawer({
                         </span>
                         <button
                           onClick={() => onAdd(item)}
+                          aria-label="Adicionar mais um item"
                           className="w-6 h-6 flex items-center justify-center text-zinc-500 hover:text-zinc-200 bg-zinc-800 transition-colors"
                         >
                           <Plus size={10} />

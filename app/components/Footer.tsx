@@ -9,7 +9,7 @@ export function Footer() {
             <p className="font-display text-xl text-hellcore-bg leading-none tracking-wide">
               HellCore Industries
             </p>
-            <p className="text-hellcore-bg/40 text-xs mt-1 leading-relaxed max-w-xs">
+            <p className="text-hellcore-bg/60 text-xs mt-1 leading-relaxed max-w-xs">
               Skate, underground e cultura de rua — obras de arte e ilustrações em diferentes formatos.
             </p>
           </div>
@@ -19,7 +19,7 @@ export function Footer() {
               href="https://instagram.com/hellcore_industries"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-hellcore-bg/40 hover:text-hellcore-bg text-xs transition-colors"
+              className="text-hellcore-bg/65 hover:text-hellcore-bg text-xs transition-colors"
             >
               @hellcore_industries
             </a>

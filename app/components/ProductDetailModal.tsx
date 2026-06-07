@@ -105,6 +105,7 @@ export function ProductDetailModal({
           <div className="w-10 h-1 rounded-full bg-hellcore-text/20" />
           <button
             onClick={onClose}
+            aria-label="Fechar"
             className="p-1 -mr-1 active:scale-90 transition-transform"
           >
             <X size={18} className="text-hellcore-text/50" />
@@ -147,6 +148,7 @@ export function ProductDetailModal({
 
             <button
               onClick={onClose}
+              aria-label="Fechar"
               className="hidden md:flex absolute top-4 right-4 bg-hellcore-bg/90 p-2.5 active:scale-90 transition-transform items-center justify-center"
             >
               <X size={16} className="text-hellcore-text" />
@@ -159,6 +161,7 @@ export function ProductDetailModal({
                 <button
                   key={i}
                   onClick={() => emblaApi?.scrollTo(i)}
+                  aria-label={`Ver foto ${i + 1}`}
                   className={`relative shrink-0 w-14 h-14 overflow-hidden transition-all duration-200 ${
                     i === selectedIndex
                       ? "ring-2 ring-hellcore-text opacity-100"
@@ -201,7 +204,7 @@ export function ProductDetailModal({
 
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <span className="text-[9px] font-black uppercase tracking-widest text-hellcore-text/30">
+                <span className="text-[9px] font-black uppercase tracking-widest text-hellcore-text/30" aria-hidden="true">
                   Sobre o produto
                 </span>
                 <div className="flex-1 h-px bg-hellcore-border" />
@@ -249,7 +252,7 @@ export function ProductDetailModal({
             {availableAddons.length > 0 && (
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-[9px] font-black uppercase tracking-widest text-hellcore-text/30">
+                  <h3 className="text-[9px] font-black uppercase tracking-widest text-hellcore-text/30" aria-hidden="true">
                     Adicionais
                   </h3>
                   <div className="flex-1 h-px bg-hellcore-border" />
@@ -296,11 +299,11 @@ export function ProductDetailModal({
             )}
           </div>
 
-          {/* CTA — sticky no mobile, estático no desktop */}
           <div className="sticky bottom-0 md:static px-5 md:px-8 py-4 md:py-5 border-t-2 border-hellcore-text/10 flex items-center gap-3 bg-hellcore-surface md:shrink-0">
             <div className="flex items-center bg-hellcore-bg border border-hellcore-text/15 px-0.5 h-14 shrink-0">
               <button
                 onClick={() => setLocalQuantity((q) => Math.max(1, q - 1))}
+                aria-label="Diminuir quantidade"
                 className="w-11 h-12 flex items-center justify-center text-hellcore-text/50 active:bg-hellcore-border transition-colors"
               >
                 <Minus size={16} />
@@ -310,6 +313,7 @@ export function ProductDetailModal({
               </span>
               <button
                 onClick={() => setLocalQuantity((q) => q + 1)}
+                aria-label="Aumentar quantidade"
                 className="w-11 h-12 flex items-center justify-center text-hellcore-text/50 active:bg-hellcore-border transition-colors"
               >
                 <Plus size={16} />
