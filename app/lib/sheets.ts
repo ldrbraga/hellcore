@@ -40,7 +40,7 @@ export async function getProducts(): Promise<Product[]> {
     `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SHEETS_ID}/values/${range}`,
     {
       headers: { Authorization: `Bearer ${token}` },
-      next: { revalidate: 300 },
+      next: { revalidate: 3600 },
     }
   );
 

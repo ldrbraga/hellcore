@@ -8,8 +8,14 @@ import { Hero } from "./Hero";
 import { CategoryFilter, CategorySelection } from "./CategoryFilter";
 import { ProductCard } from "./ProductCard";
 import { CartTrigger } from "./CartTrigger";
-import { CartDrawer } from "./CartDrawer";
-import { ProductDetailModal } from "./ProductDetailModal";
+import dynamic from "next/dynamic";
+
+const CartDrawer = dynamic(() =>
+  import("./CartDrawer").then((m) => ({ default: m.CartDrawer }))
+);
+const ProductDetailModal = dynamic(() =>
+  import("./ProductDetailModal").then((m) => ({ default: m.ProductDetailModal }))
+);
 import { InstagramCTA } from "./InstagramCTA";
 import { Footer } from "./Footer";
 import { WHATSAPP_PHONE } from "../constants/config";
