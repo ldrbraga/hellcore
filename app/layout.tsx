@@ -49,6 +49,9 @@ export default function RootLayout({
       className={`${bebas.variable} ${barlow.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preload" href="/logo-hellcore.png" as="image" type="image/png" />
+      </head>
       <body className="antialiased">
         <div className="relative overflow-x-hidden">{children}</div>
       </body>
