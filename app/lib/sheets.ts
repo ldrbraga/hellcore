@@ -56,7 +56,7 @@ export async function getProducts(): Promise<Product[]> {
   const rows: string[][] = data.values ?? [];
 
   return rows
-    .filter((row) => row[8]?.toUpperCase() === "TRUE")
+    .filter((row) => row[1] && row[6])
     .map((row, index) => ({
       id: Number(row[0]) || index + 1,
       name: row[1],
@@ -66,5 +66,6 @@ export async function getProducts(): Promise<Product[]> {
       category: row[5] as Product["category"],
       images: row[6].split(",").map((url) => optimizeImageUrl(url.trim())).filter(Boolean),
       sizes: row[7] ? row[7].split(",").map((s) => s.trim()).filter(Boolean) : undefined,
+      inStock: row[8]?.toUpperCase() !== "FALSE",
     }));
 }

@@ -228,9 +228,12 @@ export function ProductDetailModal({
                   {product.sizes.map((size) => (
                     <button
                       key={size}
+                      disabled={!product.inStock}
                       onClick={() => { setSelectedSize(size); setSizeError(false); }}
                       className={`px-4 py-2 text-sm font-bold border-2 transition-all active:scale-95 ${
-                        selectedSize === size
+                        !product.inStock
+                          ? "border-hellcore-border text-hellcore-text/20 cursor-not-allowed line-through"
+                          : selectedSize === size
                           ? "border-hellcore-text bg-hellcore-text text-hellcore-bg"
                           : sizeError
                           ? "border-hellcore-red/50 text-hellcore-text/60"
@@ -295,32 +298,42 @@ export function ProductDetailModal({
           </div>
 
           <div className="sticky bottom-0 md:static px-5 md:px-8 py-4 md:py-5 border-t-2 border-hellcore-text/10 flex items-center gap-3 bg-hellcore-surface md:shrink-0">
-            <div className="flex items-center bg-hellcore-bg border border-hellcore-text/15 px-0.5 h-14 shrink-0">
-              <button
-                onClick={() => setLocalQuantity((q) => Math.max(1, q - 1))}
-                aria-label="Diminuir quantidade"
-                className="w-11 h-12 flex items-center justify-center text-hellcore-text/50 active:bg-hellcore-border transition-colors"
-              >
-                <Minus size={16} />
-              </button>
-              <span className="w-9 text-center font-black text-base text-hellcore-text">
-                {localQuantity}
-              </span>
-              <button
-                onClick={() => setLocalQuantity((q) => q + 1)}
-                aria-label="Aumentar quantidade"
-                className="w-11 h-12 flex items-center justify-center text-hellcore-text/50 active:bg-hellcore-border transition-colors"
-              >
-                <Plus size={16} />
-              </button>
-            </div>
-            <button
-              onClick={handleConfirm}
-              className="flex-1 bg-hellcore-text text-hellcore-bg h-14 font-black flex items-center justify-center gap-2.5 active:scale-[0.98] transition-all text-sm uppercase tracking-widest"
-            >
-              <ShoppingBag size={17} />
-              Adicionar · R$ {formatPrice(lineTotal)}
-            </button>
+            {product.inStock ? (
+              <>
+                <div className="flex items-center bg-hellcore-bg border border-hellcore-text/15 px-0.5 h-14 shrink-0">
+                  <button
+                    onClick={() => setLocalQuantity((q) => Math.max(1, q - 1))}
+                    aria-label="Diminuir quantidade"
+                    className="w-11 h-12 flex items-center justify-center text-hellcore-text/50 active:bg-hellcore-border transition-colors"
+                  >
+                    <Minus size={16} />
+                  </button>
+                  <span className="w-9 text-center font-black text-base text-hellcore-text">
+                    {localQuantity}
+                  </span>
+                  <button
+                    onClick={() => setLocalQuantity((q) => q + 1)}
+                    aria-label="Aumentar quantidade"
+                    className="w-11 h-12 flex items-center justify-center text-hellcore-text/50 active:bg-hellcore-border transition-colors"
+                  >
+                    <Plus size={16} />
+                  </button>
+                </div>
+                <button
+                  onClick={handleConfirm}
+                  className="flex-1 bg-hellcore-text text-hellcore-bg h-14 font-black flex items-center justify-center gap-2.5 active:scale-[0.98] transition-all text-sm uppercase tracking-widest"
+                >
+                  <ShoppingBag size={17} />
+                  Adicionar · R$ {formatPrice(lineTotal)}
+                </button>
+              </>
+            ) : (
+              <div className="flex-1 h-14 border-2 border-hellcore-text/15 flex items-center justify-center gap-2">
+                <span className="text-sm font-black uppercase tracking-widest text-hellcore-text/30">
+                  Produto Esgotado
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>

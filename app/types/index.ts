@@ -13,6 +13,7 @@ export interface Product {
   category: "Camisetas" | "Shapes" | "Bonés" | "Arte Digital";
   images: string[];
   sizes?: string[];
+  inStock: boolean;
 }
 
 export interface CartItem extends Product {

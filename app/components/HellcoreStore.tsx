@@ -153,10 +153,11 @@ export function HellcoreStore({ products }: Props) {
     window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
   };
 
-  const filteredProducts =
+  const filteredProducts = (
     selectedCategory === "Todos"
       ? products
-      : products.filter((p) => p.category === selectedCategory);
+      : products.filter((p) => p.category === selectedCategory)
+  ).sort((a, b) => Number(b.inStock) - Number(a.inStock));
 
   const categoryCounts = useMemo(() => {
     const counts: Record<string, number> = { Todos: products.length };
