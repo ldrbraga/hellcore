@@ -99,7 +99,6 @@ export function ProductDetailModal({
         style={{ height: "92dvh" }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Drag handle + close — sticky no topo no mobile */}
         <div className="md:hidden sticky top-0 z-10 flex items-center justify-between px-4 pt-3 pb-2 bg-hellcore-surface shrink-0">
           <div className="w-5 shrink-0" />
           <div className="w-10 h-1 rounded-full bg-hellcore-text/20" />
@@ -112,9 +111,7 @@ export function ProductDetailModal({
           </button>
         </div>
 
-        {/* Seção de imagens */}
         <div className="shrink-0 w-full md:w-[55%] md:h-full md:flex md:flex-col md:overflow-hidden">
-          {/* Aspect-square no mobile, flex-1 no desktop */}
           <div className="w-full aspect-square relative md:aspect-auto md:flex-1">
             <div className="overflow-hidden absolute inset-0" ref={emblaRef}>
               <div className="flex h-full">
@@ -186,9 +183,7 @@ export function ProductDetailModal({
           )}
         </div>
 
-        {/* Seção de conteúdo */}
         <div className="flex-1 md:flex md:flex-col md:overflow-hidden md:border-l md:border-hellcore-text/10">
-          {/* Conteúdo — flui normalmente no mobile, scroll interno no desktop */}
           <div className="px-5 md:px-8 pt-5 pb-4 md:pb-6 space-y-5 md:flex-1 md:overflow-y-auto">
             <div className="space-y-2">
               <span className="text-[9px] font-black uppercase tracking-[0.4em] text-hellcore-red/70">

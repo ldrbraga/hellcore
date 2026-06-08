@@ -25,9 +25,15 @@ export type PaymentMethod = "Pix" | "Dinheiro" | "Cartão (Entregador)";
 
 export interface UserInfo {
   name: string;
-  address: string;
   phone: string;
   email: string;
+  cep: string;
+  street: string;
+  number: string;
+  complement: string;
+  neighborhood: string;
+  city: string;
+  state: string;
   payment: PaymentMethod;
   change: string;
 }

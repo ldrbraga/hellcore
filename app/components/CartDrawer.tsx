@@ -3,7 +3,17 @@
 import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { IMaskInput } from "react-imask";
-import { X, Minus, Plus, ArrowLeft, Send, ShoppingBag } from "lucide-react";
+import {
+  X,
+  Minus,
+  Plus,
+  ArrowLeft,
+  Send,
+  ShoppingBag,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+} from "lucide-react";
 import Image from "next/image";
 import { CartItem, Product, UserInfo } from "../types";
 import { formatPrice, calcAddonsTotal, calcTotalItems } from "../utils/format";
@@ -18,6 +28,8 @@ interface Props {
   onSend: (formData: UserInfo) => void;
 }
 
+type CepStatus = "idle" | "loading" | "found" | "error";
+
 export function CartDrawer({
   isOpen,
   cart,
@@ -28,6 +40,7 @@ export function CartDrawer({
   onSend,
 }: Props) {
   const [step, setStep] = useState<"cart" | "checkout">("cart");
+  const [cepStatus, setCepStatus] = useState<CepStatus>("idle");
 
   const {
     register,
@@ -36,13 +49,20 @@ export function CartDrawer({
     getValues,
     watch,
     setValue,
+    setFocus,
     formState: { errors },
   } = useForm<UserInfo>({
     defaultValues: {
       name: "",
       phone: "",
       email: "",
-      address: "",
+      cep: "",
+      street: "",
+      number: "",
+      complement: "",
+      neighborhood: "",
+      city: "",
+      state: "",
       payment: "Pix",
       change: "",
     },
@@ -50,9 +70,46 @@ export function CartDrawer({
   });
 
   const payment = watch("payment");
+  const city = watch("city");
+  const state = watch("state");
+
+  const handleCepChange = async (maskedValue: string) => {
+    const digits = maskedValue.replace(/\D/g, "");
+    if (digits.length < 8) {
+      if (cepStatus !== "idle") {
+        setCepStatus("idle");
+        setValue("street", "");
+        setValue("neighborhood", "");
+        setValue("city", "");
+        setValue("state", "");
+      }
+      return;
+    }
+    setCepStatus("loading");
+    try {
+      const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      if (data.erro) {
+        setCepStatus("error");
+        return;
+      }
+      setValue("street", data.logradouro ?? "");
+      setValue("neighborhood", data.bairro ?? "");
+      setValue("city", data.localidade ?? "");
+      setValue("state", data.uf ?? "");
+      setCepStatus("found");
+      setTimeout(() => setFocus("number"), 50);
+    } catch {
+      setCepStatus("error");
+    }
+  };
 
   useEffect(() => {
-    if (!isOpen) setStep("cart");
+    if (!isOpen) {
+      setStep("cart");
+      setCepStatus("idle");
+    }
   }, [isOpen]);
 
   useEffect(() => {
@@ -244,7 +301,7 @@ export function CartDrawer({
                   render={({ field }) => (
                     <IMaskInput
                       mask="(00) 00000-0000"
-                      placeholder="(11) 99999-9999"
+                      placeholder="(21) 99999-9999"
                       className={inputCls(!!errors.phone)}
                       value={field.value}
                       onAccept={(v) => field.onChange(v)}
@@ -287,22 +344,141 @@ export function CartDrawer({
 
               <div className="space-y-1">
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
-                  Endereço <span className="text-red-600">*</span>
+                  CEP <span className="text-red-600">*</span>
                 </label>
-                <input
-                  type="text"
-                  placeholder="Rua, número, complemento"
-                  className={inputCls(!!errors.address)}
-                  {...register("address", {
-                    required: "Informe o endereço de entrega",
-                  })}
-                />
-                {errors.address && (
+                <div className="relative">
+                  <Controller
+                    name="cep"
+                    control={control}
+                    rules={{
+                      required: "Informe o CEP",
+                      validate: (v) => {
+                        if (v.replace(/\D/g, "").length !== 8)
+                          return "CEP inválido";
+                        if (cepStatus === "error") return "CEP não encontrado";
+                        return true;
+                      },
+                    }}
+                    render={({ field }) => (
+                      <IMaskInput
+                        mask="00000-000"
+                        placeholder="00000-000"
+                        inputMode="numeric"
+                        className={inputCls(!!errors.cep)}
+                        value={field.value}
+                        onAccept={(v) => {
+                          field.onChange(v);
+                          handleCepChange(v);
+                        }}
+                        onBlur={field.onBlur}
+                      />
+                    )}
+                  />
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                    {cepStatus === "loading" && (
+                      <Loader2
+                        size={14}
+                        className="animate-spin text-zinc-500"
+                      />
+                    )}
+                    {cepStatus === "found" && (
+                      <CheckCircle2 size={14} className="text-green-500" />
+                    )}
+                    {cepStatus === "error" && (
+                      <AlertCircle size={14} className="text-red-500" />
+                    )}
+                  </div>
+                </div>
+                {errors.cep && (
                   <p className="text-[11px] text-red-500">
-                    {errors.address.message}
+                    {errors.cep.message}
                   </p>
                 )}
               </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                  Rua / Logradouro <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Preenchido automaticamente"
+                  className={inputCls(!!errors.street)}
+                  {...register("street", { required: "Informe o logradouro" })}
+                />
+                {errors.street && (
+                  <p className="text-[11px] text-red-500">
+                    {errors.street.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                    Número <span className="text-red-600">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="Ex: 42"
+                    className={inputCls(!!errors.number)}
+                    {...register("number", { required: "Obrigatório" })}
+                  />
+                  {errors.number && (
+                    <p className="text-[11px] text-red-500">
+                      {errors.number.message}
+                    </p>
+                  )}
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                    Complemento
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Apto, bloco..."
+                    className={inputCls(false)}
+                    {...register("complement")}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                  Bairro <span className="text-red-600">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Preenchido automaticamente"
+                  className={inputCls(!!errors.neighborhood)}
+                  {...register("neighborhood", {
+                    required: "Informe o bairro",
+                  })}
+                />
+                {errors.neighborhood && (
+                  <p className="text-[11px] text-red-500">
+                    {errors.neighborhood.message}
+                  </p>
+                )}
+              </div>
+
+              {cepStatus === "found" && city && (
+                <div className="flex items-center gap-2 animate-in fade-in duration-300">
+                  <CheckCircle2 size={13} className="text-green-500 shrink-0" />
+                  <p className="text-[11px] text-zinc-400">
+                    {city} — {state}
+                  </p>
+                  <input type="hidden" {...register("city")} />
+                  <input type="hidden" {...register("state")} />
+                </div>
+              )}
+              {cepStatus !== "found" && (
+                <>
+                  <input type="hidden" {...register("city")} />
+                  <input type="hidden" {...register("state")} />
+                </>
+              )}
 
               <div className="space-y-1">
                 <label className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">

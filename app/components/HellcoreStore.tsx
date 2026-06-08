@@ -14,7 +14,9 @@ const CartDrawer = dynamic(() =>
   import("./CartDrawer").then((m) => ({ default: m.CartDrawer }))
 );
 const ProductDetailModal = dynamic(() =>
-  import("./ProductDetailModal").then((m) => ({ default: m.ProductDetailModal }))
+  import("./ProductDetailModal").then((m) => ({
+    default: m.ProductDetailModal,
+  }))
 );
 import { InstagramCTA } from "./InstagramCTA";
 import { Footer } from "./Footer";
@@ -135,7 +137,11 @@ export function HellcoreStore({ products }: Props) {
     const message = encodeURIComponent(
       `Olá HellCore! Quero fazer um pedido:\n\n` +
         `👤 *Cliente:* ${formData.name}\n` +
-        `📍 *Endereço:* ${formData.address}\n` +
+        `📍 *Endereço:* ${formData.street}, nº ${formData.number}${
+          formData.complement ? `, ${formData.complement}` : ""
+        }\n` +
+        `🏘️ *Bairro:* ${formData.neighborhood} — ${formData.city}/${formData.state}\n` +
+        `📮 *CEP:* ${formData.cep}\n` +
         `📞 *Telefone:* ${formData.phone}\n` +
         `📧 *E-mail:* ${formData.email}\n` +
         `💳 *Pagamento:* ${formData.payment}\n\n` +
