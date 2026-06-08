@@ -128,7 +128,7 @@ export function CartDrawer({
 
   const inputCls = (hasError: boolean) =>
     [
-      "w-full px-3 py-2.5 bg-zinc-900 border text-zinc-100 text-sm focus:outline-none focus:ring-1 transition-colors placeholder:text-zinc-600",
+      "w-full px-3 py-2.5 bg-zinc-900 border text-zinc-100 text-base focus:outline-none focus:ring-1 transition-colors placeholder:text-zinc-600",
       hasError
         ? "border-red-700/60 focus:ring-red-700/30"
         : "border-zinc-700 focus:ring-zinc-500/40",
@@ -485,7 +485,7 @@ export function CartDrawer({
                   Pagamento
                 </label>
                 <select
-                  className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-700 focus:outline-none focus:ring-1 ring-zinc-500/40 text-zinc-100 text-sm cursor-pointer"
+                  className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-700 focus:outline-none focus:ring-1 ring-zinc-500/40 text-zinc-100 text-base cursor-pointer"
                   {...register("payment", {
                     onChange: (e) => {
                       if (e.target.value !== "Dinheiro") setValue("change", "");
@@ -509,7 +509,7 @@ export function CartDrawer({
                     type="text"
                     inputMode="numeric"
                     placeholder="Ex: 50 (ou deixe em branco)"
-                    className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-700 focus:outline-none focus:ring-1 ring-zinc-500/40 text-zinc-100 text-sm placeholder:text-zinc-600"
+                    className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-700 focus:outline-none focus:ring-1 ring-zinc-500/40 text-zinc-100 text-base placeholder:text-zinc-600"
                     {...register("change")}
                   />
                 </div>
