@@ -32,18 +32,14 @@ async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
-function optimizeImageUrl(url: string): string {
-  if (url.includes("res.cloudinary.com") && url.includes("/upload/") && !url.includes("/video/upload/")) {
-    return url.replace("/upload/", "/upload/f_auto,q_auto,w_1200/");
-  }
-  return url;
-}
 
-function optimizeBannerUrl(url: string): string {
-  if (url.includes("res.cloudinary.com") && url.includes("/upload/") && !url.includes("/video/upload/")) {
-    return url.replace("/upload/", "/upload/f_auto,q_auto:best,w_1920/");
+function isValidUrl(url: string): boolean {
+  try {
+    const { protocol } = new URL(url);
+    return protocol === "https:" || protocol === "http:";
+  } catch {
+    return false;
   }
-  return url;
 }
 
 export async function getProducts(): Promise<Product[]> {
@@ -71,10 +67,11 @@ export async function getProducts(): Promise<Product[]> {
       detailDescription: row[3] || undefined,
       price: Number(row[4]),
       category: row[5] as Product["category"],
-      images: row[6].split(",").map((url) => optimizeImageUrl(url.trim())).filter(Boolean),
+      images: row[6].split(",").map((url) => url.trim()).filter(isValidUrl),
       sizes: row[7] ? row[7].split(",").map((s) => s.trim()).filter(Boolean) : undefined,
       inStock: row[8]?.toUpperCase() !== "FALSE",
-    }));
+    }))
+    .filter((p) => p.images.length > 0);
 }
 
 export async function getBanners(): Promise<Banner[]> {
@@ -95,9 +92,9 @@ export async function getBanners(): Promise<Banner[]> {
     const rows: string[][] = data.values ?? [];
 
     return rows
-      .filter((row) => row[0] && row[3]?.toUpperCase() !== "FALSE")
+      .filter((row) => row[0] && row[3]?.toUpperCase() !== "FALSE" && isValidUrl(row[0].trim()))
       .map((row) => ({
-        imageUrl: optimizeBannerUrl(row[0].trim()),
+        imageUrl: row[0].trim(),
         link: row[1]?.trim() || undefined,
         alt: row[2]?.trim() || undefined,
       }));
