@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     optimizeCss: true,
   },
   images: {
+    qualities: [75, 90],
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 31536000,
     remotePatterns: [

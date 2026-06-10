@@ -1,54 +1,13 @@
-import Image from "next/image";
+import { BannerCarousel } from "./BannerCarousel";
+import type { Banner } from "../types";
 
 const TICKER =
   " SKATE • ARTE • CONTRACULTURA • UNDERGROUND • HELLCORE INDUSTRIES •";
 
-export function Hero() {
+export function Hero({ banners }: { banners: Banner[] }) {
   return (
     <section>
-      <div
-        className="flex flex-col items-center py-4 md:py-4 relative overflow-hidden"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 160% at 50% 50%, #1e1c14 0%, #111109 100%)",
-        }}
-      >
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "rgba(4, 4, 4, 0.98)" }}
-          aria-hidden="true"
-        />
-
-        <div
-          className="absolute mix-blend-screen pointer-events-none"
-          style={{
-            inset: "-300px",
-            transform: "rotate(-10deg)",
-            opacity: 0.1,
-          }}
-          aria-hidden="true"
-        >
-          <div
-            style={{
-              width: "100%",
-              height: "100%",
-              backgroundImage: "url('/logo-hellcore.png')",
-              backgroundRepeat: "repeat",
-              backgroundSize: "100px 100px",
-              filter: "invert(1)",
-            }}
-          />
-        </div>
-
-        <Image
-          src="/logo-hellcore.png"
-          alt="HellCore Industries"
-          width={208}
-          height={208}
-          priority
-          className="relative z-10 w-36 h-36 md:w-52 md:h-52 object-contain select-none pointer-events-none"
-        />
-      </div>
+      <BannerCarousel banners={banners} />
 
       <div className="bg-hellcore-text border-t border-hellcore-red/25 py-1.5 overflow-hidden">
         <div className="flex animate-marquee whitespace-nowrap w-max" aria-hidden="true">
@@ -61,7 +20,10 @@ export function Hero() {
       <div className="bg-hellcore-bg border-b-2 border-hellcore-text">
         <div className="max-w-5xl mx-auto px-4 md:px-8 py-3 md:py-8">
           <div className="flex items-center gap-4 mb-2 md:mb-4">
-            <span className="text-[9px] font-black uppercase tracking-[0.5em] text-hellcore-text/30" aria-hidden="true">
+            <span
+              className="text-[9px] font-black uppercase tracking-[0.5em] text-hellcore-text/30"
+              aria-hidden="true"
+            >
               Manifesto
             </span>
             <div className="h-px flex-1 bg-hellcore-text/10" />

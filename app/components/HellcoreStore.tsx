@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useRef, useEffect } from "react";
-import { Product, CartItem, Addon, UserInfo } from "../types";
+import { Product, CartItem, Addon, UserInfo, Banner } from "../types";
 import { formatPrice, calcAddonsTotal, calcTotalItems } from "../utils/format";
 import { Header } from "./Header";
 import { Hero } from "./Hero";
@@ -24,9 +24,10 @@ import { WHATSAPP_PHONE } from "../constants/config";
 
 interface Props {
   products: Product[];
+  banners: Banner[];
 }
 
-export function HellcoreStore({ products }: Props) {
+export function HellcoreStore({ products, banners }: Props) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -171,7 +172,7 @@ export function HellcoreStore({ products }: Props) {
     <div className="min-h-screen bg-hellcore-bg text-hellcore-text">
       <Header cartCount={totalItems} onCartOpen={() => setIsCartOpen(true)} />
 
-      <Hero />
+      <Hero banners={banners} />
 
       <div className="pb-8">
         <CategoryFilter

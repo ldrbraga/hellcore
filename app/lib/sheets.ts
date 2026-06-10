@@ -1,5 +1,5 @@
 import { SignJWT, importPKCS8 } from "jose";
-import { Product } from "../types";
+import { Product, Banner } from "../types";
 
 async function getAccessToken(): Promise<string> {
   const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!;
@@ -39,6 +39,13 @@ function optimizeImageUrl(url: string): string {
   return url;
 }
 
+function optimizeBannerUrl(url: string): string {
+  if (url.includes("res.cloudinary.com") && url.includes("/upload/") && !url.includes("/video/upload/")) {
+    return url.replace("/upload/", "/upload/f_auto,q_auto:best,w_1920/");
+  }
+  return url;
+}
+
 export async function getProducts(): Promise<Product[]> {
   const token = await getAccessToken();
   const range = encodeURIComponent("A2:I");
@@ -68,4 +75,33 @@ export async function getProducts(): Promise<Product[]> {
       sizes: row[7] ? row[7].split(",").map((s) => s.trim()).filter(Boolean) : undefined,
       inStock: row[8]?.toUpperCase() !== "FALSE",
     }));
+}
+
+export async function getBanners(): Promise<Banner[]> {
+  try {
+    const token = await getAccessToken();
+    const range = encodeURIComponent("Banners!A2:D");
+
+    const response = await fetch(
+      `https://sheets.googleapis.com/v4/spreadsheets/${process.env.GOOGLE_SHEETS_ID}/values/${range}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        next: { revalidate: 60 },
+      }
+    );
+
+    const data = await response.json();
+    if (data.error) return [];
+    const rows: string[][] = data.values ?? [];
+
+    return rows
+      .filter((row) => row[0] && row[3]?.toUpperCase() !== "FALSE")
+      .map((row) => ({
+        imageUrl: optimizeBannerUrl(row[0].trim()),
+        link: row[1]?.trim() || undefined,
+        alt: row[2]?.trim() || undefined,
+      }));
+  } catch {
+    return [];
+  }
 }

@@ -463,21 +463,15 @@ export function CartDrawer({
                 )}
               </div>
 
+              <input type="hidden" {...register("city")} />
+              <input type="hidden" {...register("state")} />
               {cepStatus === "found" && city && (
                 <div className="flex items-center gap-2 animate-in fade-in duration-300">
                   <CheckCircle2 size={13} className="text-green-500 shrink-0" />
                   <p className="text-[11px] text-zinc-400">
                     {city} — {state}
                   </p>
-                  <input type="hidden" {...register("city")} />
-                  <input type="hidden" {...register("state")} />
                 </div>
-              )}
-              {cepStatus !== "found" && (
-                <>
-                  <input type="hidden" {...register("city")} />
-                  <input type="hidden" {...register("state")} />
-                </>
               )}
 
               <div className="space-y-1">

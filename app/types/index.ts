@@ -1,3 +1,9 @@
+export interface Banner {
+  imageUrl: string;
+  link?: string;
+  alt?: string;
+}
+
 export interface Addon {
   id: string;
   name: string;
